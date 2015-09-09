@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<software>
+	<config>
+		<name>apache</name>
+		<url>http://httpd.apache.org</url>
+		<regex>Apache httpd (\d+\.?)+ Released</regex>
+	</config>
+	<config>
+		<name>php</name>
+		<url>http://www.php.net</url>
+		<regex>/downloads.php#v(\d+\.?)+</regex>
+	</config>
+	<config>
+		<name>nginx</name>
+		<url>http://nginx.org/en/CHANGES</url>
+		<regex>Changes with nginx (\d+\.?)+</regex>
+	</config>
+	<config>
+		<name>microsoft-iis</name>
+		<url>http://www.iis.net/learn</url>
+		<regex>New in IIS (\d+\.?)+\?</regex>
+	</config>
+	<config>
+		<name>joomla</name>
+		<url>http://www.joomla.org/download.html</url>
+		<regex>(\d+\.?)+ Full Package</regex>
+	</config>
+	<config>
+		<name>wordpress</name>
+		<url>http://wordpress.org/download/</url>
+		<regex>Download WordPress (\d+\.?)+</regex>
+	</config>
+	<config>
+		<name>openssl</name>
+		<url>http://www.openssl.org/source/</url>
+		<regex>openssl-(\d+\.?)+.?\.tar\.gz</regex>
+	</config>
+	<config>
+		<name>liferay</name>
+		<url>http://www.liferay.com/community/releases</url>
+		<regex>Liferay Portal (\d+\.?)+</regex>
+	</config>
+	<config>
+		<name>mysql</name>
+		<url>http://dev.mysql.com/downloads/</url>
+		<regex>Current Generally Available Release: (\d+\.?)+</regex>
+	</config>
+	<config>
+		<name>lighttpd</name>
+		<url>http://www.lighttpd.net/download/</url>
+		<regex>lighttpd-(\d+\.?)+\.tar\.gz</regex>
+	</config>
+	<config>
+		<name>postgre</name>
+		<url>http://www.postgresql.org/</url>
+		<regex>(\d+\.?)+</regex>
+	</config>
+	<config>
+		<name>drupal</name>
+		<url>https://www.drupal.org/download</url>
+		<regex>Download Drupal (\d+\.?)+</regex>
+	</config>
+	<config>
+		<name>tomcat</name>
+		<url>http://tomcat.apache.org/</url>
+		<regex>Tomcat (\d+\.?)+ Released</regex>
+	</config>
+</software>
