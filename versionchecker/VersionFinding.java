@@ -80,4 +80,8 @@ public class VersionFinding {
 	public String errors(){
 		return this.error;
 	}
+
+	public String[] getCves() {
+		return BurpIO.getInstance().getCves(this.ID, this.version);
+	}
 }

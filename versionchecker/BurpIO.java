@@ -36,7 +36,7 @@ public class BurpIO {
 	private IBurpExtenderCallbacks callbacks;
 	
 	private static final String NAME = "BurpIO";
-	private static final String VERSION = "0.1.0";
+	private static final String VERSION = "0.1.1";
 	
 	public static void createInstance(IBurpExtenderCallbacks callbacks) {
 		if(burpIO == null)
@@ -79,7 +79,8 @@ public class BurpIO {
 			String name = callbacks.loadExtensionSetting("software" + i);
 			String url = callbacks.loadExtensionSetting(name + "URL");
 			String regex = callbacks.loadExtensionSetting(name + "Regex");
-			VersionConfig vc = new VersionConfig(name, url, regex);
+			String cves = callbacks.loadExtensionSetting(name + "CVES");
+			VersionConfig vc = new VersionConfig(name, url, regex, cves);
 			this.configs.add(vc.software);
 			map.put(vc.id, vc);
 		}
@@ -96,11 +97,12 @@ public class BurpIO {
 			VersionConfig vc = config.get(name.toLowerCase().hashCode());
 			callbacks.saveExtensionSetting(name + "URL", vc.url);
 			callbacks.saveExtensionSetting(name + "Regex", vc.regex);
+			callbacks.saveExtensionSetting(name + "CVES", vc.cves);
 		}
 	}
 	
-	public VersionConfig addVersionConfig(String software, String url, String regex){
-		VersionConfig versionConfig = new VersionConfig(software, url, regex);
+	public VersionConfig addVersionConfig(String software, String url, String regex, String cves){
+		VersionConfig versionConfig = new VersionConfig(software, url, regex, cves);
 		if(this.config.containsKey(versionConfig.id))
 			return null;
 		this.config.put(versionConfig.id, versionConfig);
@@ -125,7 +127,7 @@ public class BurpIO {
 	}
 	
 	public String[][] getVersionConfigs(){
-		String [][] vcs = new String[this.config.size()][4];
+		String [][] vcs = new String[this.config.size()][5];
 		for(int i = 0; i< this.configs.size(); i++){
 			VersionConfig c = this.config.get(this.configs.get(i).toLowerCase().hashCode());
 			if(c != null){
@@ -133,11 +135,13 @@ public class BurpIO {
 				vcs[i][1] = c.software;
 				vcs[i][2] = c.url;
 				vcs[i][3] = c.regex;
+				vcs[i][4] = c.cves;
 			} else {
 				vcs[i][0] = "null";
 				vcs[i][1] = "null";
 				vcs[i][2] = "null";
 				vcs[i][3] = "null";
+				vcs[i][4] = "null";
 			}
 		}
 		return vcs;
@@ -167,6 +171,44 @@ public class BurpIO {
 		}
 		
 		return version;
+	}
+	
+	public String[] getCves(int id, String version) {
+		ArrayList<String> cves = new ArrayList<String>();
+		VersionConfig vc = this.config.get(id);
+		
+		if(vc != null){			
+			String response = makeGetRequest(vc.cves);
+			
+			if(response == null)
+				return null;
+			
+			String cves_url = "";
+			Pattern pattern = Pattern.compile("/vulnerability-list/.*" + version + "\\.html");
+			// Response apparently doesn't have \n so we need to had it so we won't get a giant match
+			Matcher matcher = pattern.matcher(response.replace("</td>", "\n"));
+			if(!matcher.find())
+				return null;
+			
+			cves_url = matcher.group(0);
+
+			response = makeGetRequest("http://www.cvedetails.com" + cves_url);
+			
+			if(response == null)
+				return null;
+			
+			pattern = Pattern.compile("/CVE-(\\d){4}-(\\d)+/");
+			matcher = pattern.matcher(response);
+			while(matcher.find())
+				cves.add(matcher.group(0).replace("/", ""));
+		}
+		
+		String [] return_cves = new String[cves.size()];
+		int i = 0;
+		for(String cve : cves)
+			return_cves[i++] = cve;
+		
+		return return_cves;
 	}
 	
 	public static String makeGetRequest(String url){
@@ -211,7 +253,8 @@ public class BurpIO {
 				String name = ((Element) xmlConfig.getElementsByTagName("name").item(0)).getFirstChild().getNodeValue();
 				String url = ((Element) xmlConfig.getElementsByTagName("url").item(0)).getFirstChild().getNodeValue();
 				String regex = ((Element) xmlConfig.getElementsByTagName("regex").item(0)).getFirstChild().getNodeValue();
-				VersionConfig vc = new VersionConfig(name, url, regex);
+				String cves = ((Element) xmlConfig.getElementsByTagName("cve").item(0)).getFirstChild().getNodeValue();
+				VersionConfig vc = new VersionConfig(name, url, regex, cves);
 				this.configs.add(vc.software);
 				map.put(vc.id, vc);
 			}

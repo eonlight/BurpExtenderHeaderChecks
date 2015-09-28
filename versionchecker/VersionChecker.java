@@ -23,7 +23,7 @@ public class VersionChecker implements IScannerCheck {
 	private IExtensionHelpers helpers;
 	
 	private static final String NAME = "Version Checker";
-	private static final String VERSION = "0.4.1";
+	private static final String VERSION = "0.5.0";
 	
 	private static final String[] DEFAULT_SEARCH_HEADERS = new String[]{
 			"Server", "X-Powered-By", "X-AspNetMvc-Version",
@@ -164,6 +164,13 @@ public class VersionChecker implements IScannerCheck {
 		details.append("Base on the header <b>" + value.trim() + "</b> Version Checker determined that " + vf.getSoftware() + " is out-of-date: <br/>");
 		details.append("<ul><li>Installed Version: <b>" + vf.getVersion() + "</b></li><li>Latest Version: <b>" + vf.getLastesVersion() + "</b></li></ul>");
 		
+		String [] cves = vf.getCves();
+		if(cves != null && cves.length > 0){
+			details.append("<br/> The following " + cves.length + " CVEs where found: <br/>");
+			for(String cve : cves)
+				details.append(cve + "<br/>");
+		}
+			
 		oodIssue.addRequestResponse(this.callbacks.applyMarkers(requestResponse, null, matches));
 		oodIssue.setHttpService(requestResponse.getHttpService());
 		oodIssue.setIssueDetail(details.toString());
@@ -210,7 +217,8 @@ public class VersionChecker implements IScannerCheck {
 			
 			// Checks if issue already reported and if there are any new headers to report
 			boolean report = false, found = false;
-			String prefix = helpers.analyzeRequest(requestResponse).getUrl().getProtocol() + "://" + helpers.analyzeRequest(requestResponse).getUrl().getHost();
+			String prefix = requestResponse.getProtocol() + "://" + requestResponse.getHost();
+			
 			IScanIssue[] reportedIssues = callbacks.getScanIssues(prefix);
 			for(IScanIssue i : reportedIssues){
 				if(i.getIssueName().equals(idIssue.getIssueName())){
@@ -220,7 +228,7 @@ public class VersionChecker implements IScannerCheck {
 							report = true;
 				}
 			}
-			
+						
 			if(report || !found){
 				List<InformationDisclosureIssue> issues = new ArrayList<InformationDisclosureIssue>();
 				issues.add(idIssue);
@@ -240,9 +248,10 @@ public class VersionChecker implements IScannerCheck {
 		details.append("The response does not contain the <b>" + missingHeader +  "</b> security headers:<br/>");
 		mhIssue.setHttpService(requestResponse.getHttpService());
 		mhIssue.setIssueDetail(details.toString());
+		mhIssue.addRequestResponse(requestResponse);
 			
 		// Checks if issue already reported
-		String prefix = helpers.analyzeRequest(requestResponse).getUrl().getProtocol() + "://" + helpers.analyzeRequest(requestResponse).getUrl().getHost();
+		String prefix = requestResponse.getProtocol() + "://" + requestResponse.getHost();
 		IScanIssue[] reportedIssues = callbacks.getScanIssues(prefix);
 		for(IScanIssue i : reportedIssues)
 			if(i.getIssueName().equals(mhIssue.getIssueName()))
@@ -280,7 +289,7 @@ public class VersionChecker implements IScannerCheck {
 			
 			// Checks if issue already reported and if there are any new headers to report
 			boolean report = false, found = false;
-			String prefix = helpers.analyzeRequest(requestResponse).getUrl().getProtocol() + "://" + helpers.analyzeRequest(requestResponse).getUrl().getHost();
+			String prefix = requestResponse.getProtocol() + "://" + requestResponse.getHost();
 			IScanIssue[] reportedIssues = callbacks.getScanIssues(prefix);
 			for(IScanIssue i : reportedIssues){
 				if(i.getIssueName().equals(hfIssue.getIssueName())){

@@ -21,7 +21,7 @@ public class JsonDecoder implements IMessageEditorTabFactory {
 	private IExtensionHelpers helpers;
 	
 	private static final String NAME = "Json Decoder";
-	private static final String VERSION = "1.0.0";
+	private static final String VERSION = "1.1.0";
 	
 	public JsonDecoder(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
 		BurpIO.getInstance().write("[*] Loaded " + NAME + " v" + VERSION);
@@ -56,7 +56,9 @@ public class JsonDecoder implements IMessageEditorTabFactory {
 				String data = helpers.bytesToString(this.textEditor.getText());
 				
 				try{
-					data = new JSONObject(this.textEditor.getText()).toString(4);
+					if(!data.startsWith("{"))
+						data = "{\"results\":" + data + "}";
+					data = new JSONObject(data).toString(4);
 				} catch(JSONException e){
 					if(BurpExtender.DEBUG)
 						e.printStackTrace(BurpIO.getInstance().stderr);
@@ -123,6 +125,8 @@ public class JsonDecoder implements IMessageEditorTabFactory {
 				String body = helpers.bytesToString(content).substring(offset, content.length);
 
 				try{
+					if(!body.startsWith("{"))
+						body = "{\"results\":" + body + "}";
 					this.textEditor.setText(helpers.stringToBytes(new JSONObject(body).toString(4)));
 				} catch(JSONException e){
 					if(BurpExtender.DEBUG)

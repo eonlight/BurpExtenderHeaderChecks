@@ -49,7 +49,7 @@ public class ConfigTab implements ITab {
 	private IBurpExtenderCallbacks callbacks;
 	
 	private static final String NAME = "Configuration Tab";
-	private static final String VERSION = "0.2.0";
+	private static final String VERSION = "0.2.2";
 	
 	public ConfigTab(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
 		this.callbacks = callbacks;
@@ -500,7 +500,7 @@ public class ConfigTab implements ITab {
 		JLabel versionCheckerLabel = new JLabel("Version Checker Settings");
 		versionCheckerLabel.setFont(new Font("Tahoma", 1, HEADER_SIZE));
 		
-		String [] columnNames = new String[]{"ID", "Software", "URL", "Regex"};
+		String [] columnNames = new String[]{"ID", "Software", "URL", "Regex", "CVEs"};
 		
 		DefaultTableModel versionCheckerTableModel = new DefaultTableModel(BurpIO.getInstance().getVersionConfigs(), columnNames);
 		versionCheckerTableModel.addTableModelListener(new TableModelListener() {
@@ -512,10 +512,12 @@ public class ConfigTab implements ITab {
 						int id = Integer.parseInt((String) versionCheckerTableModel.getValueAt(row, 0));
 						String url = (String) versionCheckerTableModel.getValueAt(row, 2);
 						String regex = (String) versionCheckerTableModel.getValueAt(row, 3);
+						String cves = (String) versionCheckerTableModel.getValueAt(row, 4);
 						VersionConfig config = BurpIO.getInstance().getVersionConfig(id);
 						
 						config.url = url;
 						config.regex = regex;
+						config.cves = cves;
 						versionCheckerTableModel.setValueAt(config.software, row, 1);
 						
 						versionCheckerMsg.setText("Version Checker Configuration changed for: " + config.software);
@@ -603,6 +605,20 @@ public class ConfigTab implements ITab {
 			}
 		});
 		
+		JTextField versionCheckerNewCVEText = new JTextField("New CVE URL...");
+		versionCheckerNewCVEText.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(versionCheckerNewCVEText.getText().equals(""))
+					versionCheckerNewCVEText.setText("New CVE URL...");
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				versionCheckerNewCVEText.setText("");
+			}
+		});
+		
 		JButton versionCheckerAddButton = new JButton("Add");
 		versionCheckerAddButton.addActionListener(new ActionListener() {			
 			@Override
@@ -610,12 +626,13 @@ public class ConfigTab implements ITab {
 				String newSoftware = versionCheckerNewSoftwareText.getText();
 				String newURL = versionCheckerNewURLText.getText();
 				String newRegex = versionCheckerNewRegexText.getText();
+				String newCVE = versionCheckerNewCVEText.getText();
 				
-				VersionConfig config = BurpIO.getInstance().addVersionConfig(newSoftware, newURL, newRegex);
+				VersionConfig config = BurpIO.getInstance().addVersionConfig(newSoftware, newURL, newRegex, newCVE);
 				if(config == null){
 					versionCheckerMsg.setText("Software Configuration for " + newSoftware + " already exists.");
 				} else {
-					versionCheckerTableModel.addRow(new String[]{"" + config.id, config.software, config.url, config.regex});
+					versionCheckerTableModel.addRow(new String[]{"" + config.id, config.software, config.url, config.regex, config.cves});
 					versionCheckerMsg.setText("Software Configuration Added for: " + config.software);
 					BurpIO.getInstance().saveCurrentVersionCheckerConfigs();
 				}
@@ -637,6 +654,7 @@ public class ConfigTab implements ITab {
 						.addComponent(versionCheckerNewSoftwareText)
 						.addComponent(versionCheckerNewURLText)
 						.addComponent(versionCheckerNewRegexText)
+						.addComponent(versionCheckerNewCVEText)
 				)
 				.addComponent(versionCheckerMsg);
 			
@@ -655,6 +673,7 @@ public class ConfigTab implements ITab {
 						.addComponent(versionCheckerNewSoftwareText)
 						.addComponent(versionCheckerNewURLText)
 						.addComponent(versionCheckerNewRegexText)
+						.addComponent(versionCheckerNewCVEText)
 				)
 				.addComponent(versionCheckerMsg);
 			

@@ -4,65 +4,78 @@
 		<name>apache</name>
 		<url>http://httpd.apache.org</url>
 		<regex>Apache httpd (\d+\.?)+ Released</regex>
+		<cve>http://www.cvedetails.com/version-list/45/66/1/Apache-Http-Server.html</cve>
 	</config>
 	<config>
 		<name>php</name>
 		<url>http://www.php.net</url>
 		<regex>/downloads.php#v(\d+\.?)+</regex>
+		<cve>http://www.cvedetails.com/version-list/74/128/1/PHP-PHP.html</cve>
 	</config>
 	<config>
 		<name>nginx</name>
 		<url>http://nginx.org/en/CHANGES</url>
 		<regex>Changes with nginx (\d+\.?)+</regex>
+		<cve>http://www.cvedetails.com/version-list/10048/17956/1/Nginx-Nginx.html</cve>
 	</config>
 	<config>
 		<name>microsoft-iis</name>
 		<url>http://www.iis.net/learn</url>
 		<regex>New in IIS (\d+\.?)+\?</regex>
+		<cve>http://www.cvedetails.com/version-list/26/3436/1/Microsoft-IIS.html</cve>
 	</config>
 	<config>
 		<name>joomla</name>
 		<url>http://www.joomla.org/download.html</url>
 		<regex>(\d+\.?)+ Full Package</regex>
+		<cve>http://www.cvedetails.com/version-list/3496/6129/1/Joomla-Joomla.html</cve>
 	</config>
 	<config>
 		<name>wordpress</name>
 		<url>http://wordpress.org/download/</url>
 		<regex>Download WordPress (\d+\.?)+</regex>
+		<cve>http://www.cvedetails.com/version-list/2337/4096/1/Wordpress-Wordpress.html</cve>
 	</config>
 	<config>
 		<name>openssl</name>
 		<url>http://www.openssl.org/source/</url>
 		<regex>openssl-(\d+\.?)+.?\.tar\.gz</regex>
+		<cve>http://www.cvedetails.com/version-list/217/383/1/Openssl-Openssl.html</cve>
 	</config>
 	<config>
 		<name>liferay</name>
 		<url>http://www.liferay.com/community/releases</url>
 		<regex>Liferay Portal (\d+\.?)+</regex>
+		<cve>http://www.cvedetails.com/version-list/2114/18625/1/Liferay-Liferay-Portal.html</cve>
 	</config>
 	<config>
 		<name>mysql</name>
 		<url>http://dev.mysql.com/downloads/</url>
 		<regex>Current Generally Available Release: (\d+\.?)+</regex>
+		<cve>http://www.cvedetails.com/version-list/185/316/1/Mysql-Mysql.html</cve>
 	</config>
 	<config>
 		<name>lighttpd</name>
 		<url>http://www.lighttpd.net/download/</url>
 		<regex>lighttpd-(\d+\.?)+\.tar\.gz</regex>
+		<cve>http://www.cvedetails.com/version-list/2713/4762/1/Lighttpd-Lighttpd.html</cve>
 	</config>
 	<config>
 		<name>postgre</name>
 		<url>http://www.postgresql.org/</url>
 		<regex>(\d+\.?)+</regex>
+		<cve>http://www.cvedetails.com/version-list/336/575/1/Postgresql-Postgresql.html</cve>
 	</config>
 	<config>
 		<name>drupal</name>
 		<url>https://www.drupal.org/download</url>
 		<regex>Download Drupal (\d+\.?)+</regex>
+		<cve>http://www.cvedetails.com/version-list/1367/2387/1/Drupal-Drupal.html</cve>
 	</config>
 	<config>
 		<name>tomcat</name>
 		<url>http://tomcat.apache.org/</url>
 		<regex>Tomcat (\d+\.?)+ Released</regex>
+		<cve>http://www.cvedetails.com/version-list/45/887/1/Apache-Tomcat.html</cve>
 	</config>
 </software>
