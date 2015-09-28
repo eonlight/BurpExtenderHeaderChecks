@@ -59,13 +59,13 @@ A Burp Suite Extension that adds Header Checks and other helper features
 
 At the moment it is not in the Burp Ext. Store but you can get the jar file from the releases page on github:
 
-https://github.com/eonlight/BurpExtenderHeaderChecks/releases/new
+https://github.com/eonlight/BurpExtenderHeaderChecks/releases
 
-1) Download the extension
-2) Open Burp and go to the Extender tab
-3) Click on the "Add" Button and Select "Java" Extension type
-4) Click on the "Select file" button and select the downloaded .jar file
-5) Click "next" and done!
+1. Download the extension
+2. Open Burp and go to the Extender tab
+3. Click on the "Add" Button and Select "Java" Extension type
+4. Click on the "Select file" button and select the downloaded .jar file
+5. Click "next" and done!
 
 ## Future Work
 

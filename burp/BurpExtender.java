@@ -9,7 +9,7 @@ import versionchecker.VersionChecker;
 
 public class BurpExtender implements IBurpExtender {
 	
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	
 	private static final String NAME = "Additional Header Checks & Burp Helpers";
 	private static final String VERSION = "0.3.3";
