@@ -23,7 +23,7 @@ public class VersionChecker implements IScannerCheck {
 	private IExtensionHelpers helpers;
 	
 	private static final String NAME = "Version Checker";
-	private static final String VERSION = "0.5.0";
+	private static final String VERSION = "0.5.1";
 	
 	private static final String[] DEFAULT_SEARCH_HEADERS = new String[]{
 			"Server", "X-Powered-By", "X-AspNetMvc-Version",
@@ -163,6 +163,7 @@ public class VersionChecker implements IScannerCheck {
 		StringBuilder details = new StringBuilder();
 		details.append("Base on the header <b>" + value.trim() + "</b> Version Checker determined that " + vf.getSoftware() + " is out-of-date: <br/>");
 		details.append("<ul><li>Installed Version: <b>" + vf.getVersion() + "</b></li><li>Latest Version: <b>" + vf.getLastesVersion() + "</b></li></ul>");
+		oodIssue.version = vf.getSoftware() + ";" + vf.getVersion() + ";" + vf.getLastesVersion();
 		
 		String [] cves = vf.getCves();
 		if(cves != null && cves.length > 0){
@@ -175,7 +176,24 @@ public class VersionChecker implements IScannerCheck {
 		oodIssue.setHttpService(requestResponse.getHttpService());
 		oodIssue.setIssueDetail(details.toString());
 		
-		issues.add(oodIssue);
+		
+		// Checks if issue already reported
+		boolean report = false, found = false;
+		String prefix = requestResponse.getProtocol() + "://" + requestResponse.getHost();
+		
+		IScanIssue[] reportedIssues = callbacks.getScanIssues(prefix);
+		for(IScanIssue i : reportedIssues){
+			if(i.getIssueName().equals(oodIssue.getIssueName())){
+				found = true;
+				for(String h : oodIssue.version.split(";"))
+					if(!i.getIssueDetail().contains(h))
+						report = true;
+			}
+		}
+					
+		if(report || !found)
+			issues.add(oodIssue);
+					
 	}
 	
 	private VersionFinding searchVersion(String value) {		

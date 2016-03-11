@@ -9,13 +9,13 @@ import versionchecker.VersionChecker;
 
 public class BurpExtender implements IBurpExtender {
 	
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = true;
 	
 	private static final String NAME = "Additional Header Checks & Burp Helpers";
-	private static final String VERSION = "0.3.3";
+	private static final String VERSION = "0.3.4";
 		
 	@Override
-	public void registerExtenderCallbacks(IBurpExtenderCallbacks callbacks) {		
+	public void registerExtenderCallbacks(IBurpExtenderCallbacks callbacks) {
 		// Always needs to go first
 		BurpIO.createInstance(callbacks);
 		
