@@ -594,7 +594,9 @@ public class JSONArray implements Iterable<Object> {
                 return myE;
             }
             return Enum.valueOf(clazz, val.toString());
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (IllegalArgumentException e){
+        	return defaultValue;
+        } catch (NullPointerException e) {
             return defaultValue;
         }
     }

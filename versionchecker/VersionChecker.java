@@ -188,6 +188,8 @@ public class VersionChecker implements IScannerCheck {
 				for(String h : oodIssue.version.split(";"))
 					if(!i.getIssueDetail().contains(h))
 						report = true;
+				if(!report)
+					break;
 			}
 		}
 					
@@ -244,6 +246,10 @@ public class VersionChecker implements IScannerCheck {
 					for(String h : idIssue.headers)
 						if(!i.getIssueDetail().contains(h))
 							report = true;
+					
+					if(!report)
+						break;
+						
 				}
 			}
 						

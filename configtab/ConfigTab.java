@@ -49,7 +49,7 @@ public class ConfigTab implements ITab {
 	private IBurpExtenderCallbacks callbacks;
 	
 	private static final String NAME = "Configuration Tab";
-	private static final String VERSION = "0.2.2";
+	private static final String VERSION = "0.2.3";
 	
 	public ConfigTab(IBurpExtenderCallbacks callbacks, IExtensionHelpers helpers) {
 		this.callbacks = callbacks;
@@ -70,13 +70,13 @@ public class ConfigTab implements ITab {
 		/* State Restorer Layout Creation */
 		
 		// State restorer components
-		JLabel stateRestorerMsg  = new JLabel();
+		final JLabel stateRestorerMsg  = new JLabel();
 		stateRestorerMsg.setFont(new Font("Tahoma", 1, MSG_SIZE));
 		
 		JLabel stateRestorerLabel = new JLabel("State Restorer Settings");
 		stateRestorerLabel.setFont(new Font("Tahoma", 1, HEADER_SIZE));
 		
-		JTextField stateRestorerPathText = new JTextField(StateRestorer.path);
+		final JTextField stateRestorerPathText = new JTextField(StateRestorer.path);
 		stateRestorerPathText.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -118,7 +118,7 @@ public class ConfigTab implements ITab {
 			}
 		});
 		
-		JCheckBox stateRestorerActiveCheckBox = new JCheckBox("Activate the automatic state restorer on burp startup.");
+		final JCheckBox stateRestorerActiveCheckBox = new JCheckBox("Activate the automatic state restorer on burp startup.");
 		stateRestorerActiveCheckBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -178,7 +178,7 @@ public class ConfigTab implements ITab {
 		/* Information Disclosure Headers Layout */
 		
 		// Information Disclosure Components
-		JLabel infoDisclosureMsg  = new JLabel();
+		final JLabel infoDisclosureMsg  = new JLabel();
 		infoDisclosureMsg.setFont(new Font("Tahoma", 1, MSG_SIZE));
 		
 		JLabel infoDisclosureLabel = new JLabel("Information Disclosure Headers Settings");
@@ -186,7 +186,7 @@ public class ConfigTab implements ITab {
 		
 		
 		JScrollPane infoDisclosureHeadersPane = new JScrollPane();
-		JList<String> infoDisclosureHeadersList = new JList<String>();
+		final JList<String> infoDisclosureHeadersList = new JList<String>();
 		infoDisclosureHeadersPane.setViewportView(infoDisclosureHeadersList);
 		infoDisclosureHeadersList.setListData(VersionChecker.searchHeaders);
 		
@@ -258,7 +258,7 @@ public class ConfigTab implements ITab {
 		});
 		
 		
-		JTextField infoDisclosureNewHeaderText = new JTextField("New Header...");
+		final JTextField infoDisclosureNewHeaderText = new JTextField("New Header...");
 		infoDisclosureNewHeaderText.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -327,14 +327,14 @@ public class ConfigTab implements ITab {
 		/* Missing Security Headers Layout */
 		
 		// Missing Headers Components
-		JLabel missingHeadersMsg  = new JLabel();
+		final JLabel missingHeadersMsg  = new JLabel();
 		missingHeadersMsg.setFont(new Font("Tahoma", 1, MSG_SIZE));
 		
 		JLabel missingHeadersLabel = new JLabel("Missing Security Headers Settings");
 		missingHeadersLabel.setFont(new Font("Tahoma", 1, HEADER_SIZE));
 		
 		JScrollPane missingHeadersPane = new JScrollPane();
-		JList<String> missingHeadersList = new JList<String>();
+		final JList<String> missingHeadersList = new JList<String>();
 		missingHeadersPane.setViewportView(missingHeadersList);
 		missingHeadersList.setListData(VersionChecker.missingHeaders);
 		
@@ -374,7 +374,7 @@ public class ConfigTab implements ITab {
 			}
 		});
 		
-		JButton missingHeadersRemoveButton = new JButton("Remove");
+		final JButton missingHeadersRemoveButton = new JButton("Remove");
 		missingHeadersRemoveButton.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -407,7 +407,7 @@ public class ConfigTab implements ITab {
 		});
 		
 		
-		JTextField missingHeadersNewHeaderText = new JTextField("New Header...");
+		final JTextField missingHeadersNewHeaderText = new JTextField("New Header...");
 		missingHeadersNewHeaderText.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -436,7 +436,7 @@ public class ConfigTab implements ITab {
 			}
 		});
 		
-		JCheckBox additionalIssueMissingHeadersFound = new JCheckBox("Add an Information Issue when these headers are found");
+		final JCheckBox additionalIssueMissingHeadersFound = new JCheckBox("Add an Information Issue when these headers are found");
 		additionalIssueMissingHeadersFound.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -494,15 +494,15 @@ public class ConfigTab implements ITab {
 		/* Version Checker Layout */
 		
 		// Version Checker Components
-		JLabel versionCheckerMsg  = new JLabel();
+		final JLabel versionCheckerMsg  = new JLabel();
 		versionCheckerMsg.setFont(new Font("Tahoma", 1, MSG_SIZE));
 		
 		JLabel versionCheckerLabel = new JLabel("Version Checker Settings");
 		versionCheckerLabel.setFont(new Font("Tahoma", 1, HEADER_SIZE));
 		
-		String [] columnNames = new String[]{"ID", "Software", "URL", "Regex", "CVEs"};
+		final String [] columnNames = new String[]{"ID", "Software", "URL", "Regex", "CVEs"};
 		
-		DefaultTableModel versionCheckerTableModel = new DefaultTableModel(BurpIO.getInstance().getVersionConfigs(), columnNames);
+		final DefaultTableModel versionCheckerTableModel = new DefaultTableModel(BurpIO.getInstance().getVersionConfigs(), columnNames);
 		versionCheckerTableModel.addTableModelListener(new TableModelListener() {
 			@Override
 			public void tableChanged(TableModelEvent e) {
@@ -528,7 +528,7 @@ public class ConfigTab implements ITab {
 			}
 		});
 		
-		JTable versionCheckerTable = new JTable(versionCheckerTableModel);
+		final JTable versionCheckerTable = new JTable(versionCheckerTableModel);
 		versionCheckerTable.removeColumn(versionCheckerTable.getColumnModel().getColumn(0));
 		JScrollPane versionCheckerTableContainer = new JScrollPane(versionCheckerTable);
 		
@@ -563,7 +563,7 @@ public class ConfigTab implements ITab {
 			}
 		});
 		
-		JTextField versionCheckerNewSoftwareText = new JTextField("New Software...");
+		final JTextField versionCheckerNewSoftwareText = new JTextField("New Software...");
 		versionCheckerNewSoftwareText.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -577,7 +577,7 @@ public class ConfigTab implements ITab {
 			}
 		});
 		
-		JTextField versionCheckerNewURLText = new JTextField("New URL...");
+		final JTextField versionCheckerNewURLText = new JTextField("New URL...");
 		versionCheckerNewURLText.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -591,7 +591,7 @@ public class ConfigTab implements ITab {
 			}
 		});
 		
-		JTextField versionCheckerNewRegexText = new JTextField("New Regex...");
+		final JTextField versionCheckerNewRegexText = new JTextField("New Regex...");
 		versionCheckerNewRegexText.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -605,7 +605,7 @@ public class ConfigTab implements ITab {
 			}
 		});
 		
-		JTextField versionCheckerNewCVEText = new JTextField("New CVE URL...");
+		final JTextField versionCheckerNewCVEText = new JTextField("New CVE URL...");
 		versionCheckerNewCVEText.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
